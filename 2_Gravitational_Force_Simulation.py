@@ -110,7 +110,7 @@ def main():
 			random.uniform(-0.05,0.05),	# X_Vel
 			random.uniform(-0.05,0.05),	# Y_Vel
 			random.randint(1,4),		# Radius
-			GREY						# Color
+			GREY				# Color
 		))
 
 	# Running the main loop
