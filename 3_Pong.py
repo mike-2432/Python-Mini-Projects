@@ -131,21 +131,21 @@ def player_won(puck):
 
 # Create objects
 def create_objects(level):
-	player =  Player(PADDING, 					# x_position
-					(HEIGHT/2)-(PADDLE_SIZE/2),	# y_position
-					15, 						# Width
-					PADDLE_SIZE,				# Height
-					0, 							# x_vel (no x_vel)
-					15, 						# y_vel (movement speed)
-					WHITE)						# color
+	player =  Player(PADDING, 			# x_position
+			(HEIGHT/2)-(PADDLE_SIZE/2),	# y_position
+			15, 				# Width
+			PADDLE_SIZE,			# Height
+			0, 				# x_vel (no x_vel)
+			15, 				# y_vel (movement speed)
+			WHITE)				# color
 
 	computer = Player(WIDTH - 20 - PADDING,		# x_position
-					(HEIGHT/2)-(PADDLE_SIZE/2),	# y_position
-					15,							# Width
-					PADDLE_SIZE,				# Height							
-					0,							# x_vel (no x_vel)
-					5+(level*2),					# y_vel (movement speed)
-					WHITE)						# color
+			(HEIGHT/2)-(PADDLE_SIZE/2),	# y_position
+			15,				# Width
+			PADDLE_SIZE,			# Height							
+			0,				# x_vel (no x_vel)
+			5+(level*2),			# y_vel (movement speed)
+			WHITE)				# color
 
 
 	puck = Puck(100, 400, 25, 25, 10+level, 7, WHITE)
