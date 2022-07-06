@@ -93,7 +93,7 @@ def player_collision(puck, player, computer):
 		if abs(puck.object.bottom - player.object.top) < collision_tolerance and puck.y_vel > 0:
 			puck.y_vel *= -1
 		if abs(puck.object.left - player.object.right) < collision_tolerance and puck.x_vel < 0:
-			puck.x_vel *= -1.08							# Slowly increasing the speed
+			puck.x_vel *= -1.08					# Slowly increasing the speed
 			puck.x_vel = min(puck.x_vel, 25)			# Setting a max speed
 
 			# Creating slightly different directions
@@ -106,7 +106,7 @@ def player_collision(puck, player, computer):
 		if abs(puck.object.bottom - computer.object.top) < collision_tolerance and puck.y_vel > 0:
 			puck.y_vel *= -1
 		if abs(puck.object.right - computer.object.left) < collision_tolerance and puck.x_vel > 0:
-			puck.x_vel *= -1.08							# Slowly increasing the speed
+			puck.x_vel *= -1.08					# Slowly increasing the speed
 			puck.x_vel = max(puck.x_vel, -25)			# Setting a max speed
 
 			# Creating slightly different directions
@@ -146,6 +146,7 @@ def create_objects(level):
 					0,							# x_vel (no x_vel)
 					5+(level*2),					# y_vel (movement speed)
 					WHITE)						# color
+
 
 	puck = Puck(100, 400, 25, 25, 10+level, 7, WHITE)
 	object_list = [player, computer, puck]
