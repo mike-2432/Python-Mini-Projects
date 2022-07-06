@@ -14,6 +14,8 @@ pygame.display.set_caption('Pong')
 WHITE = (255, 255, 255)
 
 PADDING = 20
+PADDLE_SIZE = 150
+FONT = pygame.font.SysFont('open-sans',40)
 
 FPS = 60
 CLOCK = pygame.time.Clock()
@@ -95,7 +97,7 @@ def player_collision(puck, player, computer):
 			puck.x_vel = min(puck.x_vel, 25)			# Setting a max speed
 
 			# Creating slightly different directions
-			bounce_direction = random.uniform(0.9,1.25)	
+			bounce_direction = random.uniform(0.85,1.3)	
 			puck.y_vel *= bounce_direction
 
 	if puck.object.colliderect(computer.object):
@@ -108,8 +110,9 @@ def player_collision(puck, player, computer):
 			puck.x_vel = max(puck.x_vel, -25)			# Setting a max speed
 
 			# Creating slightly different directions
-			bounce_direction = random.uniform(0.9,1.25)		
+			bounce_direction = random.uniform(0.85,1.3)		
 			puck.y_vel *= bounce_direction
+	
 	
 # Making the computer move
 def computer_move(puck, computer):
@@ -126,63 +129,94 @@ def check_scored(puck):
 def player_won(puck):
 	return puck.x > WIDTH
 
-		
+# Create objects
+def create_objects(level):
+	player =  Player(PADDING, 					# x_position
+					(HEIGHT/2)-(PADDLE_SIZE/2),	# y_position
+					15, 						# Width
+					PADDLE_SIZE,				# Height
+					0, 							# x_vel (no x_vel)
+					15, 						# y_vel (movement speed)
+					WHITE)						# color
+
+	computer = Player(WIDTH - 20 - PADDING,		# x_position
+					(HEIGHT/2)-(PADDLE_SIZE/2),	# y_position
+					15,							# Width
+					PADDLE_SIZE,				# Height							
+					0,							# x_vel (no x_vel)
+					5+(level*2),					# y_vel (movement speed)
+					WHITE)						# color
+
+
+	puck = Puck(100, 400, 25, 25, 10+level, 7, WHITE)
+	object_list = [player, computer, puck]
+	return object_list
+
+# Current level screen
+def show_level(level):
+	WIN.fill((30,30,30))
+	label = FONT.render('Level ' + str(level), 5, (255,255,255))
+	WIN.blit(label, (WIDTH/2 - label.get_width()/2, HEIGHT/2 - label.get_height()/2))
+	pygame.display.flip()
+	time.sleep(1)
+
+
 # ====================================
 # Main Loop
 # ====================================
 def game():
-	# Create instances of the classes
-	player =  Player(PADDING,		# x_position
-			(WIDTH/2)-100, 		# y_position
-			15, 			# Width
-			150, 			# Height
-			0, 			# x_vel (no x_vel)
-			15, 			# y_vel (movement speed)
-			WHITE)			# color
+	level = 1
 
-	computer = Player(WIDTH - 20 - PADDING,	# x_position
-			(WIDTH/2)-100,		# y_position
-			15,			# Width
-			150,			# Height							
-			0,			# x_vel (no x_vel)
-			8,			# y_vel (movement speed)
-			WHITE)			# color
+	# Creating instances of the classes
+	object_list = create_objects(level)
+	player, computer, puck = object_list
 
-	puck = Puck(100, 100, 25, 25, 10, 6, WHITE)
+	# Showing the initial level
+	show_level(level)
 	
-	object_list = [player, computer, puck]
-
 	# Running the game
 	run = True
 	while run:
 
+		# Exit button handler
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				return
 
-		# Move the objects
+		# Moving the objects
 		for object in object_list:
 			object.move()
 
-		# Make the computer move
+		# Making the computer move
 		computer_move(puck, computer)
 
-		# Check for collisions
+		# Checking for collisions
 		player_collision(puck, player, computer)
 
-		# Check for a score
+		# Checking for a goal
 		if check_scored(puck):
+			# Checking if the human player won
 			if player_won(puck):
-				print('You Won!')
-				time.sleep(1)
-				return
+				level += 1
+				show_level(level)
+
+				# Resetting the objects
+				object_list.clear()
+				del object_list
+				object_list = create_objects(level)
+				player, computer, puck = object_list
+				continue
+
 			else:
-				print('You Lost...')
+				label = FONT.render('You lost...', 5, (255,255,255))
+				WIN.blit(label, (WIDTH/2 - label.get_width()/2, HEIGHT/2 - label.get_height()/2))
+				pygame.display.flip()
 				time.sleep(1)
 				return
 
 		# Draw everything
 		WIN.fill((30,30,30))
+
 		for object in object_list:
 			object.draw()
 
@@ -192,7 +226,32 @@ def game():
 
 
 # ====================================
+# Main Menu
+# ====================================
+def main_menu():
+
+	# The menu loop
+	run = True
+	while run:
+		WIN.fill((30,30,30))
+		title = FONT.render('Press ENTER to begin', 5, (255,255,255))
+
+		# Place font in the center
+		WIN.blit(title, (WIDTH/2 - title.get_width()/2, HEIGHT/2 - title.get_height()/2))
+
+		# Events
+		pygame.display.update()
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				run = False
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_RETURN:
+					game()
+	pygame.quit()
+
+
+# ====================================
 # Running the program
 # ====================================
 if __name__=="__main__":
-	game()
+	main_menu()
