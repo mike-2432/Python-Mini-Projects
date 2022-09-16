@@ -11,7 +11,7 @@ The first application randomly creates a list of balls with different colors fro
 The second application taught me to code more advanced physics. The application randomly creates a list of particles of different sizes from the particle class. All particles are attracted to each other. The strength of the gravitational force between all particles is based on the mass of the particles and is calculated with the universal gravitational force formula.
 
 #### 3: Pong
-The third application is a version of pong where you play against the computer and have to clear a couple of stages that get increasingly more difficult.
+The third application is a version of pong where you play against the computer and have to clear a couple of stages that get increasingly more difficult. This project was a good opportunity to practice object-oriented programming and inheritance.
 
 #### 4: Minesweeper
-The final application is a version of minesweeper. Instead of numbers, the application uses different colors as an indication of the amount of neighboring bombs. 
+The final application is a version of minesweeper. Instead of numbers, the application uses different colors as an indication of the amount of neighboring bombs. It was a good opportunity to practice recursive functions and multidimensional arrays. 
